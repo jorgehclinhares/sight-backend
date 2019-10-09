@@ -24,3 +24,9 @@ module.exports.index = async (filter, multiple = false) => {
   }
   return error
 }
+
+
+module.exports.update = async (errorId, updateData) => {
+  const errorUpdated = Error.updateOne({ _id: errorId }, updateData)
+  return errorUpdated
+}

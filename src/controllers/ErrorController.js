@@ -26,12 +26,12 @@ module.exports = {
     return res.status(200).json({ success: true, message: 'Erro salvo com sucesso.', data: error })
   },
   async show(req, res) {
-    const { error_id } = req.params
+    const { errorId } = req.params
 
-    const error = await ErrorRepository.index({ _id: error_id })
+    const error = await ErrorRepository.index({ _id: errorId })
 
     if (!error) {
-      return res.status(404).json({ success: false, message: 'Código de erro não encontrado.', data: {} })
+      return res.status(404).json({ success: false, message: 'Erro não encontrado.', data: {} })
     }
 
     const project = await ProjectRepository.index({ _id: error.project })
@@ -41,5 +41,25 @@ module.exports = {
     }
 
     return res.status(200).json({ success: true, message: '', data: { error, project } })
+  },
+  async update(req, res) {
+    const { resolved } = req.body
+    const { errorId } = req.params
+
+    const error = await ErrorRepository.index({ _id: errorId })
+
+    if (!error) {
+      return res.status(404).json({ success: false, message: 'Erro não encontrado.', data: {} })
+    }
+
+    const errorUpdated = await ErrorRepository.update(errorId, { resolved })
+
+    if (!errorUpdated) {
+      return res.status(400).json({ success: false, message: 'Não foi possível editar o erro.', data: {} })
+    } else {
+      error.resolved = resolved
+    }
+
+    return res.status(200).json({ success: true, message: '', data: error })
   }
 }

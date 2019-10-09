@@ -14,6 +14,10 @@ const errorSchema = new mongoose.Schema({
   project: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Project'
+  },
+  resolved: {
+    type: Boolean,
+    default: false
   }
 })
 
