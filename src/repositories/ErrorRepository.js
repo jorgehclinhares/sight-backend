@@ -14,3 +14,13 @@ module.exports.store = async (error) => {
 
   return newError
 }
+
+module.exports.index = async (filter, multiple = false) => {
+  let error = null;
+  if (multiple === false) {
+    error = Error.findOne(filter)
+  } else {
+    error = Error.find(filter)
+  }
+  return error
+}

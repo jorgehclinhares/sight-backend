@@ -16,7 +16,11 @@ module.exports.store = async (project) => {
   return newProject
 }
 
-module.exports.index = async (filters) => {
-  const projects = await Project.find(filters);
-  return projects
+module.exports.index = async (filter, multiple = false) => {
+  if (multiple === false) {
+    project = Project.findOne(filter)
+  } else {
+    project = Project.find(filter)
+  }
+  return project
 }
