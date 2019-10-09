@@ -21,6 +21,9 @@ module.exports = {
     try {
       const tokenDecoded = jwt.verify(token, process.env.JWT_SECRET)
       req.user_id = tokenDecoded.user_id
+
+      const newToken = jwt.sign({ user_id: tokenDecoded.user_id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN })
+      req.newToken = newToken
       next()
     } catch (err) {
       return res.status(400).json({ success: false, message: 'Token inválido ou expirado.', data: {} })
