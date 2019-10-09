@@ -20,7 +20,7 @@ module.exports = {
     })
 
     if (!error) {
-      return res.status(404).json({ success: false, message: 'Não foi possível salvar este erro.', data: {} })
+      return res.status(400).json({ success: false, message: 'Não foi possível salvar este erro.', data: {} })
     }
 
     return res.status(200).json({ success: true, message: 'Erro salvo com sucesso.', data: error })

@@ -6,14 +6,12 @@ module.exports = {
     const { email, name, password } = req.body;
     let hashPassword = bcrypt.hashSync(password, process.env.USER_PASSWORD_SALT);
 
-    let data = { status: 400, success: false, message: 'Email não informado.', data: {} }
-
     const user = await UserRepository.store({ email, name, password: hashPassword })
 
-    if (user) {
-      data = { status: 200, success: true, message: '', data: user }
+    if (!user) {
+      return res.status(200).json({ success: false, message: 'Não foi possível salvar o usuário.', data: user })
     }
 
-    return res.status(data.status).json(data)
+    return res.status(200).json({ success: true, message: 'Usuário cadastrado com sucesso.', data: user })
   }
 }

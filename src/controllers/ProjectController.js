@@ -6,7 +6,7 @@ module.exports = {
     const projects = await ProjectRepository.index({ user: user_id }, true)
 
     if (!projects) {
-      return res.status(404).json({ success: false, message: 'Projeto(s) não encontrado(s).', data: {} })
+      return res.status(400).json({ success: false, message: 'Projeto(s) não encontrado(s).', data: {} })
     }
 
     return res.status(200).json({ success: 200, message: '', data: projects })
