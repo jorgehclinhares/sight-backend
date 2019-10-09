@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 
 const errorSchema = new mongoose.Schema({
+  name: String,
+  lineNumber: Number,
+  functionName: String,
+  columnNumber: String,
+  fileName: String,
   browser: {
     name: String,
     version: Number
@@ -10,7 +15,6 @@ const errorSchema = new mongoose.Schema({
     version: Number
   },
   stackTrace: [],
-  datetime: Date,
   project: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Project'
@@ -18,6 +22,15 @@ const errorSchema = new mongoose.Schema({
   resolved: {
     type: Boolean,
     default: false
+  },
+  count: {
+    type: Number,
+    default: 1
+  },
+  createdAt: Date,
+  updatedAt: {
+    type: Date,
+    default: new Date()
   }
 })
 

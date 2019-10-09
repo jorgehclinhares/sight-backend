@@ -1,26 +1,59 @@
 const ErrorRepository = require('../repositories/ErrorRepository')
 const ProjectRepository = require('../repositories/ProjectRepository')
+const moment = require('moment')
 
 module.exports = {
   async store(req, res) {
     const {
+      name,
+      lineNumber,
+      functionName,
+      columnNumber,
       browser,
       os,
       stackTrace,
-      datetime,
       project
     } = req.body
 
-    const error = await ErrorRepository.store({
-      browser,
-      os,
-      stackTrace,
-      datetime,
-      project
+    let { createdAt } = req.body
+    createdAt = moment(createdAt, 'YYYY-MM-DD HH:mm:ss').format()
+
+    const errorRegistered = await ErrorRepository.index({
+      project,
+      name,
+      lineNumber,
+      functionName,
+      columnNumber,
+      resolved: false
     })
 
-    if (!error) {
-      return res.status(400).json({ success: false, message: 'Não foi possível salvar este erro.', data: {} })
+    let error = null
+
+    if (errorRegistered) {
+      errorRegistered.count = errorRegistered.count + 1
+      error = await ErrorRepository.update(errorRegistered._id, { count: errorRegistered.count })
+
+      if (!error) {
+        return res.status(400).json({ success: false, message: 'Não foi possível salvar este erro.', data: {} })
+      }
+
+      error = errorRegistered
+    } else {
+      error = await ErrorRepository.store({
+        name,
+        lineNumber,
+        functionName,
+        columnNumber,
+        browser,
+        os,
+        stackTrace,
+        project,
+        createdAt
+      })
+
+      if (!error) {
+        return res.status(400).json({ success: false, message: 'Não foi possível salvar este erro.', data: {} })
+      }
     }
 
     return res.status(200).json({ success: true, message: 'Erro salvo com sucesso.', data: error })
