@@ -2,7 +2,7 @@ const ProjectRepository = require('../repositories/ProjectRepository')
 
 module.exports = {
   async index(req, res) {
-    const { user_id } = req.headers
+    const user_id = req.user_id
     const projects = await ProjectRepository.index({ user: user_id })
 
     let data = { status: 400, success: false, message: 'Não foi possível listar os spots.', data: {} }
