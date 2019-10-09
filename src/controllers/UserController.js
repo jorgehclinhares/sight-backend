@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 module.exports = {
   async store(req, res) {
     const { email, name, password } = req.body;
-    let hashPassword = bcrypt.hashSync(password, 10);
+    let hashPassword = bcrypt.hashSync(password, process.env.USER_PASSWORD_SALT);
 
     let data = { status: 400, success: false, message: 'Email não informado.', data: {} }
 

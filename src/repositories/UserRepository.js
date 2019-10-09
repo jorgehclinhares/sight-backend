@@ -13,3 +13,13 @@ module.exports.store = async (user) => {
 
   return newUser
 }
+
+module.exports.index = async (filter, multiple = false) => {
+  let user = null;
+  if (multiple === false) {
+    user = User.findOne(filter)
+  } else {
+    user = User.find(filter)
+  }
+  return user
+}
