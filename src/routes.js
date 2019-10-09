@@ -14,11 +14,11 @@ routes.get('/', (res) => {
   return res.json({ version: '1.0.0', message: 'Sight API working!' })
 })
 
-routes.post('/user', UserController.store)
+routes.post('/user', AuthMiddleware.authenticated, UserController.store)
 routes.get('/projects', AuthMiddleware.authenticated, ProjectController.index)
 routes.post('/projects', AuthMiddleware.authenticated, ProjectController.store)
 routes.post('/errors', AuthMiddleware.authenticated, ErrorController.store)
 routes.post('/dashboard', AuthMiddleware.authenticated, DashboardController.show)
-routes.post('/auth', AuthMiddleware.authenticated, AuthController.store)
+routes.post('/auth', AuthController.store)
 
 module.exports = routes
