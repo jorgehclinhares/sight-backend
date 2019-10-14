@@ -9,11 +9,11 @@ const AuthController = require('./controllers/AuthController')
 
 const AuthMiddleware = require('./middlewares/AuthMiddleware')
 
-routes.get('/', (res) => {
-  return res.json({ version: '1.0.0', message: 'Sight API working!' })
+routes.get('/', (req, res) => {
+  return res.status(200).json({ version: '1.0.0', message: 'Sight API working!' })
 })
 
-routes.post('/user', AuthMiddleware.authenticated, UserController.store)
+routes.post('/user', UserController.store)
 routes.get('/projects', AuthMiddleware.authenticated, ProjectController.index)
 routes.post('/projects', AuthMiddleware.authenticated, ProjectController.store)
 routes.post('/errors', AuthMiddleware.authenticated, ErrorController.store)

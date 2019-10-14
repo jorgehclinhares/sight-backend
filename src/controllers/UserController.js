@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt')
 module.exports = {
   async store(req, res) {
     const { email, name, password } = req.body;
-    let hashPassword = bcrypt.hashSync(password, process.env.USER_PASSWORD_SALT);
+    const salt = bcrypt.genSaltSync(Number(process.env.USER_PASSWORD_SALT));
+    const hashPassword = bcrypt.hashSync(password, salt);
 
     const user = await UserRepository.store({ email, name, password: hashPassword })
 
