@@ -19,7 +19,7 @@ routes.post('/projects', AuthMiddleware.authenticated, ProjectController.store)
 routes.post('/errors', AuthMiddleware.authenticated, ErrorController.store)
 routes.get('/errors/:errorId', AuthMiddleware.authenticated, ErrorController.show)
 routes.put('/errors/:errorId', AuthMiddleware.authenticated, ErrorController.update)
-routes.get('/dashboard', AuthMiddleware.authenticated, DashboardController.show)
+routes.get('/dashboard', AuthMiddleware.authenticated, DashboardController.index)
 routes.post('/auth', AuthController.store)
 
 module.exports = routes

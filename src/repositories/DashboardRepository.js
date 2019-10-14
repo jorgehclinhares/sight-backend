@@ -1,7 +1,6 @@
 const Project = require('../models/Project')
-const Error = require('../models/Error')
 
-module.exports.show = async () => {
+module.exports.index = async (filterProject) => {
   const projects = Project.aggregate([
     {
       $lookup: {
@@ -28,10 +27,14 @@ module.exports.show = async () => {
       $project: {
         _id: 1,
         name: 1,
+        user: 1,
         errors: {
           $size: "$errors"
         }
       }
+    },
+    {
+      $match: filterProject
     }
   ])
 
